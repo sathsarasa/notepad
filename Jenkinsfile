@@ -3,7 +3,8 @@ pipeline {
     stages { 
         stage('Build') { 
             steps { 
-               echo 'This is a minimal pipeline.' 
+               echo 'Building the app'
+			   sh 'mvn clean install'
             }
         }
     }
