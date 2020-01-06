@@ -7,17 +7,12 @@ pipeline {
 			   sh 'mvn clean install'
             }
         }
-		stage('Sonarqube') {
-			environment {
-				scannerHome = tool 'sonarqube'
-			}
-			steps {
-				withSonarQubeEnv('sonarqube') {
-					sh "${scannerHome}/bin/sonar-scanner"
-				}
-				timeout(time: 10, unit: 'MINUTES') {
-					waitForQualityGate abortPipeline: true
-				}
+		stage('SonarQube analysis') { 
+			withSonarQubeEnv('sonarqube') { 
+			  sh 'mvn sonar:sonar ' + 
+			  '-Dsonar.projectKey=notebook-app ' +
+			  '-Dsonar.host.url=http://34.73.81.112:9000 ' +
+			  '-Dsonar.login=36e23f7213f4c52990ae21eec7adef4cfe831dd1'
 			}
 		}
     }
